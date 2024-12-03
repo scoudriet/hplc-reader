@@ -6,62 +6,128 @@ HPLC Calculation and Ploting software
 
 import csv
 import matplotlib.pyplot as plt
+import numpy as np
 
-def readPoints(filename):
+
+def readCalibrationPoints(filename):
     """
-    Reads a data file starting from 'Inj. No. 2', extracts 'Area' as x-values, 
-    and prompts the user for the corresponding y-values (concentrations).
-    Returns two lists: x_values (Areas) and y_values (Concentrations).
+    Reads calibration standards from the CSV file.
+    Returns two lists: areas and known concentrations.
     """
-    x_values = []
-    y_values = []
+    areas = []
+    concentrations = []
 
-    try:
-        # Process the file
-        with open(filename, 'r', encoding='utf-8') as file:
-            reader = csv.reader(file, delimiter='\t')  # Assuming tab-separated values
-            next(reader)  # Skip the header line
-            
-            for line in reader:
-                columns = line[0].split('\t')  # Split columns
-                try:
-                    inj_no = columns[0]
-                    
-                    # Skip rows before "Inj. No. 2"
-                    if not inj_no.isdigit() or int(inj_no) < 2:
-                        continue
-                    
-                    area = float(columns[6])  # Area column
-                    concentration = float(input(f"Enter the concentration for Area {area}: "))
-                    
-                    x_values.append(area)
-                    y_values.append(concentration)
-                except (ValueError, IndexError):
-                    # Skip rows with invalid data
-                    continue
-    except FileNotFoundError:
-        print(f"File {filename} not found.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-    return x_values, y_values
-
-
-def plotCalibration(xpts,ypts):
     
+    dataFile = open(filename,'r', encoding = 'utf-8')
+    for step in range(5):
+        header = dataFile.readline()
+    numCal = int(input('Please enter the number of calibration points: '))
+    for step in range(numCal):
+        line = dataFile.readline()
+        row = line.split(',')
+        areas.append(float(row[6]))
+        cons =  float(input('Please enter the concentration of the calibration standard: '))
+        concentrations.append(cons)
+    dataFile.close()
+    return areas, concentrations, numCal
 
-    plt.plot(x, y, 'o-', label='Calibration Data')
+def plotCalibration(areas, concentrations):
+    """
+    Plots calibration curve with linear regression and R² value.
+    """
+    # Perform linear regression
+    #slope, intercept, r_value, p_value, std_err = stats.linregress(areas, concentrations)
+    #r_squared = r_value ** 2
+    
+    # Create regression line
+
+    
+    # Plot data points and regression line
+    plt.figure(figsize=(10, 6))
+    plt.scatter(areas, concentrations, color='blue', label='Calibration Points')
+    
+    
     plt.xlabel('Area')
-    plt.ylabel('Concentration')
-    plt.title('Calibration Curve')
+    plt.ylabel('Concentration (ppm)')
+    plt.title('HPLC Calibration Curve')
     plt.legend()
+    #calculate equation for trendline
+    x = areas
+    y = concentrations
+    z = np.polyfit(x, y, 1)
+    p = np.poly1d(z)
+
+#add trendline to plot
+    plt.plot(x, p(x))
+    # Fit the data to a linear model
+    z = np.polyfit(areas, concentrations, 1)  # Degree 1 for linear fit
+    p = np.poly1d(z)  # Create polynomial from coefficients
+
+    # Calculate R-squared
+    y_pred = p(areas)  # Predicted y-values from the trendline
+    residuals = concentrations - y_pred
+    ss_res = np.sum(residuals**2)  # Sum of squares of residuals
+    ss_tot = np.sum((concentrations - np.mean(concentrations))**2)  # Total sum of squares
+    r_squared = 1 - (ss_res / ss_tot)  # Coefficient of determination
+    print('The R squared value is', r_squared)
+    # Add R² value to plot
+    plt.text(0.05, 0.95, f'R² = {r_squared:.4f}', 
+             transform=plt.gca().transAxes, 
+             bbox=dict(facecolor='white', alpha=0.8))
+    slope = z[0]
+    y_intercept = z[1]
+    plt.grid(True, linestyle='--', alpha=0.7)
     plt.show()
+    return slope , y_intercept, r_squared
+
+def findUnknown(slope, yint, numCal):
+    areas = []
+    unknowns = []
+    sampleNames = []
+    dataFile = open(filename,'r', encoding = 'utf-8')
+    for step in range(6+numCal):
+        header = dataFile.readline()
+    numSample = int(input('Please enter the number of samples in the trial : '))
+    descion = input('Was there a dilution in this Y/N')
+    assert descion == 'Y' or descion == 'N', f"This must be a Y or N choice no other answer accepted you gave: {descion}"
+    if descion == 'Y':
+        dilFact = int(input('What was the dilution in parts: '))
+        assert dilFact > 0, f"number greater than 0 expected, got: {dilFact}"
+        for step in range(numCal):
+            line = dataFile.readline()
+            row = line.split(',')
+            sampleNames.append(row[1])
+            areas.append(float(row[6]))
+            unknown = dilFact*(slope * row[6] + yint)
+            unknowns.append(unknown) 
+
+
+    elif descion == 'N':
+        for step in range(numCal):
+            line = dataFile.readline()
+            row = line.split(',')
+            sampleNames.append(row[1])
+            areas.append(float(row[6]))
+            unknown = slope * row[6] + yint
+            unknowns.append(unknown) 
+
+    return unknowns , areas 
+
+def writeReport(rsquare, areasCon, concentrations, areaUK, unknowns, sampleNames):
+        pass
+        
 
 
 
-def getUnknowConcentrations(unkonws):
-    pass
+
+def main():
+    filename = "data.csv"  # Using the provided CSV file
+    areas, concentrations = readCalibrationPoints(filename)
+    
+    slope , y_intercept, r_squared = plotCalibration(areas, concentrations)
+
+main()
 
 
 
-def printFinalReport(CalPlot,unkonwsFound, calPts):
-    pass
+

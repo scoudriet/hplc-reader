@@ -1,0 +1,26 @@
+Inj.	Injection Name	Type 	Ret.Time	Amount	Rel.Area 	Area	Height
+No.	Selected Peak:		min		%	mAU*min	mAU
+					UV_VIS_1	UV_VIS_1	UV_VIS_1	UV_VIS_1	UV_VIS_1
+					Caffeine	Caffeine	Caffeine	Caffeine	Caffeine
+1	Blank(50:50 MeOH:DIH2O)	Unknown	n.a.	n.a.	n.a.	n.a.	n.a.
+2	1ppm	Calibration Standard	3.910 	0.5859 	100.00 	0.8809 	10.59 
+3	10ppm	Cal	3.913 	8.9053 	100.00 	7.2515 	87.16 
+4	50 ppm	Cal	3.908 	52.7904 	100.00 	40.8570 	480.43 
+5	100 ppm	Cal	3.906 	98.7184 	100.00 	76.0269 	837.36 
+6	Blank	Unknown	n.a.	n.a.	n.a.	n.a.	n.a.
+7	1 D 	Unknown	3.926 	87.2511 	40.04 	67.2457 	732.98 
+8	2 D	Unknown	3.918 	67.6093 	40.21 	52.2048 	539.28 
+9	3 D	Unknown	3.933 	92.0488 	65.53 	70.9196 	756.33 
+10	4 D	Unknown	3.910 	61.5665 	53.00 	47.5775 	526.62 
+11	5 D	Unknown	3.910 	96.3420 	64.75 	74.2072 	804.28 
+12	6 D	Unknown	3.921 	62.4099 	53.99 	48.2233 	537.90 
+13	7 D	Unknown	3.933 	46.4683 	54.29 	36.0158 	398.00 
+14	8 D	Unknown	4.055 	52.1336 	53.01 	40.3541 	435.35 
+15	1 UD	Unknown	3.908 	308.1230 	22.93 	236.3808 	1036.44 
+16	Blank	Unknown	n.a.	n.a.	n.a.	n.a.	n.a.
+17	Blank	Unknown	n.a.	n.a.	n.a.	n.a.	n.a.
+Maximum			4.055 	308.1230 	100.00 	236.3808 	1036.44 
+Average			3.927 	79.6117 	65.21 	61.3958 	552.52 
+Minimum			3.906 	0.5859 	22.93 	0.8809 	10.59 
+Standard Deviation			0.040 	75.0879 	26.51 	57.4994 	289.67 
+Relative Standard Deviation			1.01%	94.32%	40.65%	93.65%	52.43%
