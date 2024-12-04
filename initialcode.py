@@ -19,7 +19,7 @@ def readCalibrationPoints(filename):
 
     
     dataFile = open(filename,'r', encoding = 'utf-8')
-    for step in range(5):
+    for step in range(5): #skip the first five lines to get to the actual data
         header = dataFile.readline()
     numCal = int(input('Please enter the number of calibration points: '))
     for step in range(numCal):
@@ -81,11 +81,15 @@ def plotCalibration(areas, concentrations):
     return slope , y_intercept, r_squared
 
 def findUnknown(slope, yint, numCal,filename):
+    """
+    Finds the unknown concetrations.
+    Returns three lists: areas, sample names, and unknown concentrations.
+    """
     areas = []
     unknowns = []
     sampleNames = []
     dataFile = open(filename,'r', encoding = 'utf-8')
-    for step in range(6+numCal):
+    for step in range(6+numCal): #Skip the header and calibration points, start at the unknown samples.
         header = dataFile.readline()
     numSample = int(input('Please enter the number of samples in the trial : '))
     descion = input('Was there a dilution in this Y/N: ')
@@ -113,6 +117,10 @@ def findUnknown(slope, yint, numCal,filename):
     return unknowns , areas , sampleNames
 
 def writeReport(rsquare, areasCon, concentrations, areaUK, unknowns, sampleNames):
+    """
+    Writes and prints a report in a way that is legible and organized.
+    Returns six lists: r squared, areas of known concentration, known concentrations, areas of unknown, unknown concentrations, and sample names.
+    """
     output_file = "report.txt"
     
 
