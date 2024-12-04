@@ -126,18 +126,18 @@ def writeReport(rsquare, areasCon, concentrations, areaUK, unknowns, sampleNames
     file.write("=== Analysis Report ===\n\n")
     file.write(f"R-Square Value: {rsquare}\n\n")
         
-    file.write("=== AreasCon ===\n")
+    file.write("=== Areas of Known Concentrations ===\n")
     for i, area in enumerate(areasCon):
         file.write(f"  {i+1}. {area}\n")
         
-    file.write("\n=== Concentrations ===\n")
+    file.write("\n=== Known Concentrations ===\n")
     for i, conc in enumerate(concentrations):
         file.write(f"  {i+1}. {conc}\n")
         
-    file.write("\n=== AreaUK ===\n")
+    file.write("\n=== Area of Unknowns ===\n")
     file.write(f"  {areaUK}\n")
         
-    file.write("\n=== Unknowns ===\n")
+    file.write("\n=== Unknown Concentrations ===\n")
     for i, unknown in enumerate(unknowns):
         file.write(f"  {i+1}. {unknown}\n")
     file.write("\n=== Sample Names ===\n")
