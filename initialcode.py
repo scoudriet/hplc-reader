@@ -111,7 +111,7 @@ def findUnknown(slope, yint, numCal,filename):
             unknown = slope * (float(row[6])) + yint
             unknowns.append(unknown) 
     dataFile.close()
-    return unknowns , areas 
+    return unknowns , areas , sampleNames
 
 def writeReport(rsquare, areasCon, concentrations, areaUK, unknowns, sampleNames):
     output_file = "report.txt"
@@ -136,11 +136,11 @@ def writeReport(rsquare, areasCon, concentrations, areaUK, unknowns, sampleNames
     file.write("\n=== Unknowns ===\n")
     for i, unknown in enumerate(unknowns):
         file.write(f"  {i+1}. {unknown}\n")
-        file.write("\n=== Sample Names ===\n")
+    file.write("\n=== Sample Names ===\n")
     for i, sample in enumerate(sampleNames):
         file.write(f"  {i+1}. {sample}\n")
         
-        file.write("\n=== End of Report ===\n")
+    file.write("\n=== End of Report ===\n")
     
     # Notify the user that the file has been created
     print(f"Report written to '{output_file}'.") 
@@ -153,9 +153,8 @@ def writeReport(rsquare, areasCon, concentrations, areaUK, unknowns, sampleNames
 def main():
     filename = "data.csv"  # Using the provided CSV file
     areasCon, concentrations, numCal = readCalibrationPoints(filename)
-    sampleName = ["1D","2D","3D","4D"]
     slope , y_intercept, r_squared = plotCalibration(areasCon, concentrations)
-    unknowns , areasUK = findUnknown(slope, y_intercept, numCal,filename )
+    unknowns , areasUK, sampleName = findUnknown(slope, y_intercept, numCal,filename )
     writeReport(r_squared, areasCon, concentrations, areasUK, unknowns, sampleName)
 main()
 
