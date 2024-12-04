@@ -88,9 +88,8 @@ def findUnknown(slope, yint, numCal,filename):
     for step in range(6+numCal):
         header = dataFile.readline()
     numSample = int(input('Please enter the number of samples in the trial : '))
-    descion = input('Was there a dilution in this Y/N')
-    assert descion == 'Y' or descion == 'N', f"This must be a Y or N choice no other answer accepted you gave: {descion}"
-    if descion == 'Y':
+    descion = input('Was there a dilution in this Y/N: ')
+    if descion == 'Y' or descion == 'y':
         dilFact = int(input('What was the dilution in parts: '))
         assert dilFact > 0, f"number greater than 0 expected, got: {dilFact}"
         for step in range(numCal):
@@ -102,7 +101,7 @@ def findUnknown(slope, yint, numCal,filename):
             unknowns.append(unknown) 
 
 
-    elif descion == 'N':
+    elif descion == 'N' or descion == 'n':
         for step in range(numCal):
             line = dataFile.readline()
             row = line.split(',')
