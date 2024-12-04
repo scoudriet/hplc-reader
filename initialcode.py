@@ -105,7 +105,7 @@ def findUnknown(slope, yint, numCal,filename):
     if descion == 'Y' or descion == 'y':
         dilFact = int(input('What was the dilution in parts: '))
         assert dilFact > 0, f"number greater than 0 expected, got: {dilFact}"
-        for step in range(numCal):
+        for step in range(numSample):
             line = dataFile.readline()
             row = line.split(',')
             sampleNames.append(row[1])
@@ -115,7 +115,7 @@ def findUnknown(slope, yint, numCal,filename):
 
 
     elif descion == 'N' or descion == 'n':
-        for step in range(numCal):
+        for step in range(numSample):
             line = dataFile.readline()
             row = line.split(',')
             sampleNames.append(row[1])
