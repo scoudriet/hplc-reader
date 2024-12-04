@@ -1,8 +1,9 @@
-''' CSCI 203 Final Project
-Shane Coudriet
-Hannah Sims
-HPLC Calculation and Ploting software
-'''
+"""
+Purpose: Reading HPLC Data From a CSV file
+Author: Shane Coudriet & Hannah Sims
+Date: December 4, 2024
+CSCI 203, Fall 2024
+"""
 
 import csv
 import matplotlib.pyplot as plt
@@ -10,9 +11,13 @@ import numpy as np
 
 
 def readCalibrationPoints(filename):
-    """
-    Reads calibration standards from the CSV file.
-    Returns two lists: areas and known concentrations.
+    """Reads calibration standards from the specified CSV file.
+    
+    Parameters:
+        filename: the name of the csv file that you would like to have read *must be in same folder as program
+    Return value:
+        areas: list of the peak areas directly from the CSV file
+        Concentrations: the list of user entered values of known concentrations
     """
     areas = []
     concentrations = []
@@ -32,16 +37,16 @@ def readCalibrationPoints(filename):
     return areas, concentrations, numCal
 
 def plotCalibration(areas, concentrations):
-    """
-    Plots calibration curve with linear regression and R² value.
-    """
-    # Perform linear regression
-    #slope, intercept, r_value, p_value, std_err = stats.linregress(areas, concentrations)
-    #r_squared = r_value ** 2
+    """Plots calibration curve with linear regression and R² value. This is also where the slope and y intercepts are calculated for later use
     
-    # Create regression line
-
-    
+    Parameters:
+        areas: list of the peak areas directly from the CSV file 
+        Concentrations: the list of user entered values of known concentrations
+    Return value:
+            slope: this returns the float value of the slope of the best fit line
+            y_intercept: this returns the float balue of the y intercept of the best fit line
+            r_squared: this returns the R squared value of the line of best fit.
+    """
     # Plot data points and regression line
     plt.figure(figsize=(10, 6))
     plt.scatter(areas, concentrations, color='blue', label='Calibration Points')
