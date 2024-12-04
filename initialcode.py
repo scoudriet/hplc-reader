@@ -24,7 +24,7 @@ def readCalibrationPoints(filename):
 
     
     dataFile = open(filename,'r', encoding = 'utf-8')
-    for step in range(5):
+    for step in range(5):   #skip the first five lines to get to the actual data
         header = dataFile.readline()
     numCal = int(input('Please enter the number of calibration points: '))
     for step in range(numCal):
@@ -86,11 +86,19 @@ def plotCalibration(areas, concentrations):
     return slope , y_intercept, r_squared
 
 def findUnknown(slope, yint, numCal,filename):
+    """
+    Calculates the unknown concentrations based on provided data.
+
+    Returns:
+        areas: The peak areas used in the calculation.
+        samplenames: The names of the samples.
+        unknownconcentrations: The calculated unknown concentrations.
+    """
     areas = []
     unknowns = []
     sampleNames = []
     dataFile = open(filename,'r', encoding = 'utf-8')
-    for step in range(6+numCal):
+    for step in range(6+numCal):    #Skip the header and calibration points, start at the unknown samples.
         header = dataFile.readline()
     numSample = int(input('Please enter the number of samples in the trial : '))
     descion = input('Was there a dilution in this Y/N: ')
@@ -118,6 +126,20 @@ def findUnknown(slope, yint, numCal,filename):
     return unknowns , areas , sampleNames
 
 def writeReport(rsquare, areasCon, concentrations, areaUK, unknowns, sampleNames):
+    """
+    Generates and displays a well-organized and legible report.
+
+    Parameters:
+        r_squared: Coefficients of determination for the calibration.
+        knownareas: Areas corresponding to known concentrations.
+        knownconcentrations: Values of known concentrations.
+        unknownareas: Areas corresponding to unknown concentrations.
+        unknownconcentrations: Calculated values of unknown concentrations.
+        samplenames: Names of the samples included in the report.
+
+    Returns:
+        Txt file named "report.txt"
+    """
     output_file = "report.txt"
     
 
@@ -155,12 +177,22 @@ def writeReport(rsquare, areasCon, concentrations, areaUK, unknowns, sampleNames
 
 
 def main():
+    """
+    Generates and displays a well-organized and legible report.
+
+    Parameters:
+        None
+
+    Returns:
+        None
+    """
     filename = "data.csv"  # Using the provided CSV file
     areasCon, concentrations, numCal = readCalibrationPoints(filename)
     slope , y_intercept, r_squared = plotCalibration(areasCon, concentrations)
     unknowns , areasUK, sampleName = findUnknown(slope, y_intercept, numCal,filename )
     writeReport(r_squared, areasCon, concentrations, areasUK, unknowns, sampleName)
 main()
+
 
 
 
