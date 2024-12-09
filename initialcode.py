@@ -152,7 +152,7 @@ def writeReport(rsquare, areasCon, concentrations, areaUK, unknowns, sampleNames
     for i, area in enumerate(areasCon):
         file.write(f"  {i+1}. {area}\n")
         
-    file.write("\n=== Known Concentrations ===\n")
+    file.write("\n=== Known Concentrations in PPM ===\n")
     for i, conc in enumerate(concentrations):
         file.write(f"  {i+1}. {conc}\n")
         
